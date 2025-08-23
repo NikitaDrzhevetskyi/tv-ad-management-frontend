@@ -1,0 +1,38 @@
+mat-toolbar {
+  background-color: #5566bd;
+  color: white;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.sidenav {
+  width: 280px;
+  background: #ffffff;
+  border-right: 1px solid #e5e7eb;
+}
+
+.nav-link {
+  display: flex !important;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px 10px !important;
+  gap: 8px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #6b7280;
+  font-weight: 500;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #f1f5f9;
+    color: #374151;
+  }
+
+  .nav-icon {
+    font-size: 1.25rem;
+    opacity: 0.85;
+    margin-right: 5px;
+  }
+}

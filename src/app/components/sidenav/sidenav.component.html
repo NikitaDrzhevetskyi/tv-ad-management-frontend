@@ -1,0 +1,37 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button (click)="toggleSidenav()" class="toggle-button">
+    <mat-icon>{{ sidenav.opened ? "close" : "menu" }}</mat-icon>
+  </button>
+  <span>TV Advertise Management</span>
+  <span class="example-spacer"></span>
+
+  <button
+    matIconButton
+    class="example-icon"
+    aria-label="Example icon-button with share icon"
+  >
+    <mat-icon>logout</mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #sidenav class="sidenav" mode="side" opened>
+    <mat-nav-list>
+      @for (navItem of navObjects; track $index) {
+      <a
+        mat-list-item
+        [routerLink]="navItem.link"
+        routerLinkActive="active-route"
+        class="nav-link"
+      >
+        <mat-icon class="nav-icon">{{
+          getIconForNavItem(navItem.name)
+        }}</mat-icon>
+        <span class="nav-text">{{ navItem.name }}</span>
+      </a>
+      }
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <ng-content></ng-content>
+</mat-sidenav-container>
