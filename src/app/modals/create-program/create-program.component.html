@@ -1,0 +1,54 @@
+<ng-container>
+  <header>
+    <h2 mat-dialog-title>Add Program</h2>
+    <button class="close-button" matButton mat-dialog-close mat-icon-button>
+      <mat-icon fontIcon="close"></mat-icon>
+    </button>
+  </header>
+
+  <mat-dialog-content>
+    <form [formGroup]="programForm">
+      <mat-form-field>
+        <mat-label>Enter program</mat-label>
+        <input matInput formControlName="name" required />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Rating (0-10)</mat-label>
+        <input
+          matInput
+          type="number"
+          min="0"
+          max="10"
+          formControlName="rating"
+          required
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Cost Per Minute ($)</mat-label>
+        <input
+          matInput
+          type="number"
+          min="0"
+          formControlName="costPeerMinute"
+          required
+        />
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+
+  <footer>
+    <div mat-dialog-actions>
+      <button mat-button mat-dialog-close type="button">Cancel</button>
+      <button
+        mat-button
+        color="primary"
+        [mat-dialog-close]="programForm.value"
+        [disabled]="programForm.invalid"
+      >
+        Create
+      </button>
+    </div>
+  </footer>
+</ng-container>

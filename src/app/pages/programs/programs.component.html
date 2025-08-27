@@ -1,1 +1,38 @@
-<p>programs works!</p>
+<div class="program-button">
+  <h2>Programs</h2>
+  <button mat-flat-button color="primary" (click)="createProgram()">Add program</button>
+</div>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Name</th>
+    <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="rating">
+    <th mat-header-cell *matHeaderCellDef>Rating</th>
+    <td mat-cell *matCellDef="let element">{{ element.rating }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="costPeerMinute">
+    <th mat-header-cell *matHeaderCellDef>Cost per Minute</th>
+    <td mat-cell *matCellDef="let element">{{ element.costPeerMinute }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button color="primary" (click)="editProgram(element)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="onDelete(element.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+
+<mat-paginator [pageSize]="5"></mat-paginator>
