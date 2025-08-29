@@ -19,6 +19,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDividerModule } from '@angular/material/divider';
 import { HttpClientModule } from '@angular/common/http';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   imports: [
@@ -43,6 +46,9 @@ import { HttpClientModule } from '@angular/common/http';
     MatDialogModule,
     MatMenuModule,
     MatRadioModule,
+    MatProgressSpinnerModule,
+    MatPaginatorModule,
+    CommonModule,
   ],
   exports: [
     MatButtonModule,
@@ -67,6 +73,9 @@ import { HttpClientModule } from '@angular/common/http';
     MatMenuModule,
     MatRadioModule,
     MatDividerModule,
+    MatProgressSpinnerModule,
+    MatPaginatorModule,
+    CommonModule,
   ],
 })
 export class SharedMaterialModule {}

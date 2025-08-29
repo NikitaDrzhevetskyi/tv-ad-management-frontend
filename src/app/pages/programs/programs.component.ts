@@ -1,37 +1,46 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import {
+  AfterViewInit,
+  Component,
+  ViewChild,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
+import {
+  MatPaginator,
+  MatPaginatorModule,
+  PageEvent,
+} from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { IProgram } from '../../interfaces/program.interface';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenu } from '@angular/material/menu';
-import { c } from '../../../../node_modules/@angular/cdk/a11y-module.d-DBHGyKoh';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateProgramComponent } from '../../modals/create-program/create-program.component';
 import { ProgramsService } from '../../services/programs.service';
 import { Subscription } from 'rxjs';
+import { SharedMaterialModule } from '../../util/shared-material.module';
 
 @Component({
   selector: 'app-programs',
   standalone: true,
-  imports: [
-    MatTableModule,
-    MatPaginatorModule,
-    MatButtonModule,
-    MatDividerModule,
-    MatIconModule,
-  ],
+  imports: [SharedMaterialModule],
   templateUrl: './programs.component.html',
   styleUrls: ['./programs.component.scss'],
 })
-export class ProgramsComponent implements AfterViewInit {
+export class ProgramsComponent implements OnInit, OnDestroy {
   public programs: IProgram[] = [];
+  public dataSource = new MatTableDataSource<IProgram>(this.programs);
   private programsSub: Subscription | undefined;
 
-  dataSource = new MatTableDataSource<IProgram>();
-  displayedColumns: string[] = ['name', 'rating', 'costPeerMinute', 'actions'];
+  //pagination
+  public totalPrograms = 0;
+  public programsPerPage = 5;
+  public pageSizeOptions = [5, 10, 20];
+  public currentPage = 1;
 
+  displayedColumns: string[] = ['name', 'rating', 'costPeerMinute', 'actions'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
@@ -40,21 +49,28 @@ export class ProgramsComponent implements AfterViewInit {
   ) {}
 
   ngOnInit() {
-    this.programsService.getPrograms();
+    this.programsService.getPrograms(this.programsPerPage, this.currentPage);
     this.programsSub = this.programsService
       .getProgramsUpdateListener()
-      .subscribe((programs: IProgram[]) => {
-        this.programs = programs;
-        this.dataSource.data = programs; 
-      });
+      .subscribe(
+        (programData: { programs: IProgram[]; programCount: number }) => {
+          this.programs = programData.programs;
+          this.totalPrograms = programData.programCount;
+          this.dataSource.data = this.programs;
+        //   console.log('Programs received:', this.programs);//debug how much programs we get
+        }
+      );
   }
 
   ngOnDestroy() {
     this.programsSub?.unsubscribe();
   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+  onChangedPage(pageData: PageEvent) {
+    console.log(pageData);
+    this.currentPage = pageData.pageIndex + 1;
+    this.programsPerPage = pageData.pageSize;
+    this.programsService.getPrograms(this.programsPerPage, this.currentPage);
   }
 
   createProgram() {
@@ -68,6 +84,13 @@ export class ProgramsComponent implements AfterViewInit {
             result.rating,
             result.costPeerMinute
           );
+          // Refresh the list after adding
+          setTimeout(() => {
+            this.programsService.getPrograms(
+              this.programsPerPage,
+              this.currentPage
+            );
+          }, 100);
         }
       });
   }
@@ -77,7 +100,9 @@ export class ProgramsComponent implements AfterViewInit {
   }
 
   onDelete(programId: string) {
-    this.programsService.deleteProgram(programId);
+    this.programsService.deleteProgram(programId).subscribe(() => {
+      this.programsService.getPrograms(this.programsPerPage, this.currentPage);
+    });
   }
 
   updateProgram() {}

@@ -1,6 +1,8 @@
 <div class="program-button">
   <h2>Programs</h2>
-  <button mat-flat-button color="primary" (click)="createProgram()">Add program</button>
+  <button mat-flat-button color="primary" (click)="createProgram()">
+    Add program
+  </button>
 </div>
 
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
@@ -35,4 +37,9 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
 
-<mat-paginator [pageSize]="5"></mat-paginator>
+<mat-paginator
+  [length]="totalPrograms"
+  [pageSize]="programsPerPage"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="onChangedPage($event)"
+></mat-paginator>

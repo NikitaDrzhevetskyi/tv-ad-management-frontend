@@ -1,13 +1,188 @@
-.program-button{
-	display: flex;
-	justify-content: space-between;
-	margin: 20px;
-
-	h2{
-		font-size: 24px;
-		font-weight: 900;
-	}
+.program-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 16px 0;
 }
-table {
+
+.program-button h2 {
+  margin: 0;
+  color: #333;
+  font-weight: 500;
+  font-size: 1.5rem;
+}
+
+/* Table container */
+.mat-elevation-z8 {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+/* Table header styling */
+.mat-header-cell {
+  background-color: #3f51b5 !important;
+  color: white !important;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 16px 24px;
+  border-bottom: 1px solid #303f9f;
+}
+
+/* Table row styling */
+.mat-row {
+  transition: background-color 0.2s ease;
+}
+
+/* Alternating row colors */
+.mat-row:nth-child(even) {
+  background-color: #f8f9ff;
+}
+
+.mat-row:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+/* Hover effect for rows */
+.mat-row:hover {
+  background-color: #e8eaf6 !important;
+  cursor: pointer;
+}
+
+/* Table cell styling */
+.mat-cell {
+  padding: 16px 24px;
+  font-size: 14px;
+  color: #424242;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Action buttons container */
+.mat-cell:last-child {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Edit button styling */
+.mat-icon-button[color="primary"] {
+  background-color: #2196f3;
+  color: white;
+  border-radius: 6px;
+  width: 36px;
+  height: 36px;
+  transition: all 0.2s ease;
+}
+
+.mat-icon-button[color="primary"]:hover {
+  background-color: #1976d2;
+  transform: scale(1.05);
+}
+
+/* Delete button styling */
+.mat-icon-button[color="warn"] {
+  background-color: #f44336;
+  color: white;
+  border-radius: 6px;
+  width: 36px;
+  height: 36px;
+  transition: all 0.2s ease;
+}
+
+.mat-icon-button[color="warn"]:hover {
+  background-color: #d32f2f !important;
+  transform: scale(1.05);
+}
+
+/* Icon styling within buttons */
+.mat-icon-button .mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+/* Paginator styling */
+.mat-paginator {
+  background-color: #fafafa;
+  border-top: 1px solid #e0e0e0;
+  margin-top: 16px;
+  border-radius: 0 0 8px 8px;
+}
+
+.mat-paginator .mat-select-value,
+.mat-paginator .mat-paginator-range-label {
+  color: #666;
+  font-size: 13px;
+}
+
+/* Add program button styling */
+button[mat-flat-button][color="primary"] {
+  background-color: #3f51b5;
+  color: white;
+  border-radius: 6px;
+  padding: 12px 24px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+}
+
+button[mat-flat-button][color="primary"]:hover {
+  background-color: #303f9f;
+  box-shadow: 0 4px 8px rgba(63, 81, 181, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .program-button {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .mat-header-cell,
+  .mat-cell {
+    padding: 12px 16px;
+    font-size: 13px;
+  }
+
+  .mat-icon-button {
+    width: 32px;
+    height: 32px;
+  }
+
+  .mat-icon-button .mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* Additional styling for better visual hierarchy */
+.mat-table {
   width: 100%;
+  background-color: white;
+}
+
+/* Focus states for accessibility */
+.mat-icon-button:focus {
+  outline: 2px solid #3f51b5;
+  outline-offset: 2px;
+}
+
+/* Loading state (if needed) */
+.mat-table .mat-row.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Empty state styling (if needed) */
+.mat-table .no-data {
+  text-align: center;
+  padding: 40px;
+  color: #999;
+  font-style: italic;
 }
