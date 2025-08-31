@@ -1,0 +1,49 @@
+mat-form-field {
+  display: block;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .close-button {
+    margin-right: 10px;
+  }
+}
+
+.mat-error {
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+mat-dialog-content {
+  padding-top: 20px;
+  min-height: 200px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+footer {
+  border-top: 1px solid #e0e0e0;
+  padding-top: 16px;
+  margin-top: 16px;
+}
+
+div[mat-dialog-actions] {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+}
+
+div[mat-dialog-actions] button {
+  min-width: 80px;
+}

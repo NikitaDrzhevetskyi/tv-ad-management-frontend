@@ -101,4 +101,29 @@ export class ProgramsService {
       })
     );
   }
+
+  updateProgram(
+    id: string,
+    name: string,
+    rating: number,
+    costPeerMinute: number
+  ) {
+    const program: IProgram = {
+      id: id,
+      name: name,
+      rating: rating,
+      costPeerMinute: costPeerMinute,
+    };
+
+    console.log(`Service: Updating program ${id}:`, program);
+
+    return this.http
+      .put<{ message: string }>(`${this.apiUrl}/${id}`, program)
+      .pipe(
+        catchError((error) => {
+          console.error('Service: Error updating program:', error);
+          return throwError(() => error);
+        })
+      );
+  }
 }

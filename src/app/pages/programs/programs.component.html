@@ -5,6 +5,7 @@
   </button>
 </div>
 
+<mat-progress-bar mode="indeterminate" *ngIf="isLoading"> </mat-progress-bar>
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef>Name</th>
@@ -43,3 +44,6 @@
   [pageSizeOptions]="pageSizeOptions"
   (page)="onChangedPage($event)"
 ></mat-paginator>
+<p class="info-text mat-body-1" *ngIf="programs.length <= 0 && !isLoading">
+  No posts added yet!
+</p>

@@ -1,0 +1,70 @@
+<ng-container>
+  <header>
+    <h2 mat-dialog-title>Edit Program</h2>
+    <button class="close-button" matButton mat-dialog-close mat-icon-button>
+      <mat-icon fontIcon="close"></mat-icon>
+    </button>
+  </header>
+
+  <mat-dialog-content>
+    <form [formGroup]="programForm">
+      <mat-form-field>
+        <mat-label>Enter program</mat-label>
+        <input matInput formControlName="name" required />
+        <mat-error *ngIf="programForm.get('name')?.hasError('required')">
+          Program name is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Rating (0-10)</mat-label>
+        <input
+          matInput
+          type="number"
+          min="0"
+          max="10"
+          formControlName="rating"
+          required
+        />
+        <mat-error *ngIf="programForm.get('rating')?.hasError('required')">
+          Rating is required
+        </mat-error>
+        <mat-error *ngIf="programForm.get('rating')?.hasError('min') || programForm.get('rating')?.hasError('max')">
+          Rating must be between 0 and 10
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Cost Per Minute ($)</mat-label>
+        <input
+          matInput
+          type="number"
+          min="0"
+          step="0.01"
+          formControlName="costPeerMinute"
+          required
+        />
+        <mat-error *ngIf="programForm.get('costPeerMinute')?.hasError('required')">
+          Cost per minute is required
+        </mat-error>
+        <mat-error *ngIf="programForm.get('costPeerMinute')?.hasError('min')">
+          Cost per minute must be greater than 0
+        </mat-error>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+
+  <footer>
+    <div mat-dialog-actions>
+      <button mat-button mat-dialog-close type="button">Cancel</button>
+      <button
+        mat-button
+        color="primary"
+        (click)="submit()"
+        [disabled]="programForm.invalid"
+      >
+        Update
+      </button>
+    </div>
+  </footer>
+</ng-container>
