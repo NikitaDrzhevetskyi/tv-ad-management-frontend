@@ -1,0 +1,54 @@
+<!-- login.component.html (updated with error handling) -->
+<mat-card class="login-card">
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+
+  <h2 class="text-center">Login</h2>
+
+  <!-- Error message display -->
+  <mat-error *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </mat-error>
+
+  <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" type="email" />
+      <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+        Email is required
+      </mat-error>
+      <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+        Enter a valid email
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Password</mat-label>
+      <input matInput formControlName="password" type="password" />
+      <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+        Password is required
+      </mat-error>
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      color="primary"
+      class="full-width"
+      type="submit"
+      [disabled]="loginForm.invalid || isLoading"
+    >
+      {{ isLoading ? "Logging in..." : "Login" }}
+    </button>
+    <div class="register-block">
+      <p class="register-text">Not registered yet?</p>
+      <button
+        mat-raised-button
+        color="primary"
+        class="full-width"
+        type="submit"
+        (click)="redirectToSignUp()"
+      >
+        Register
+      </button>
+    </div>
+  </form>
+</mat-card>
