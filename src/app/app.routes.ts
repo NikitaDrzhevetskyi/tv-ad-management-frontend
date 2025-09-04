@@ -7,44 +7,58 @@ import { AdvertisementsComponent } from './admin/advertisements/advertisements.c
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { UserProfileComponent } from './user/user-profile/user-profile.component';
-// import { AuthGuard } from './guards/auth';
-// import { RoleGuard } from './guards/role';
+import { AuthGuard } from './guards/auth.guard';
+import { RoleGuard } from './guards/role.guard';
 
 export const routes: Routes = [
   // Public routes
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
 
-  //Admin routes
+  // Admin routes 
   {
     path: 'dashboard',
     component: DashboardComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['admin'] },
   },
   {
     path: 'programs',
     component: ProgramsComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['admin'] },
   },
   {
     path: 'customers',
     component: CustomersComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['admin'] },
   },
   {
     path: 'agents',
     component: AgentsComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['admin'] },
   },
   {
     path: 'advertisements',
     component: AdvertisementsComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['admin'] },
   },
 
   // User routes
   {
     path: 'user-profile',
     component: UserProfileComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['user'] },
   },
   {
     path: 'order-advertising',
     component: AdvertisementsComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['user'] },
   },
 
   {
