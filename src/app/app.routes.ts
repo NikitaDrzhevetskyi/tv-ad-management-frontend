@@ -6,47 +6,47 @@ import { AgentsComponent } from './admin/agents/agents.component';
 import { AdvertisementsComponent } from './admin/advertisements/advertisements.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
+import { UserProfileComponent } from './user/user-profile/user-profile.component';
+// import { AuthGuard } from './guards/auth';
+// import { RoleGuard } from './guards/role';
 
 export const routes: Routes = [
   // Public routes
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
 
-  // Protected routes - Admin only
+  //Admin routes
   {
     path: 'dashboard',
     component: DashboardComponent,
-    canActivate: [],
   },
   {
     path: 'programs',
     component: ProgramsComponent,
-    canActivate: [],
   },
   {
     path: 'customers',
     component: CustomersComponent,
-    canActivate: [],
   },
   {
     path: 'agents',
     component: AgentsComponent,
-    canActivate: [],
   },
   {
     path: 'advertisements',
     component: AdvertisementsComponent,
-    canActivate: [],
-  },
-  
-  //route for user
-  {
-    path: 'advertise-request',
-    component: AdvertisementsComponent,
-    canActivate: [],
   },
 
-  // Default redirects
+  // User routes
+  {
+    path: 'user-profile',
+    component: UserProfileComponent,
+  },
+  {
+    path: 'order-advertising',
+    component: AdvertisementsComponent,
+  },
+
   {
     path: '',
     redirectTo: '/login',

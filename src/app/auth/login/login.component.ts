@@ -1,4 +1,3 @@
-// login.component.ts (updated with AuthService integration)
 import { Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -27,38 +26,52 @@ export class LoginComponent {
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
-  }
 
-  onLogin() {
-    if (this.loginForm.invalid) {
-      return;
+    if (this.authService.isAuthenticated()) {
+      this.redirectAuthenticatedUser();
     }
-
-    const { email, password } = this.loginForm.value;
-    this.authService.loginUser(email, password);
-    console.log(email, password);
-
-    // if (this.loginForm.valid) {
-    //   this.isLoading = true;
-    //   this.errorMessage = '';
-
-    //   const { email, password } = this.loginForm.value;
-
-    //   this.authService.login(email, password).subscribe({
-    //     next: (user) => {
-    //       this.isLoading = false;
-    //       console.log('Login successful:', user);
-    //       this.router.navigate(['/dashboard']);
-    //     },
-    //     error: (error) => {
-    //       this.isLoading = false;
-    //       this.errorMessage = 'Login failed. Please check your credentials.';
-    //       console.error('Login error:', error);
-    //     }
-    //   });
-    // }
   }
-  redirectToSignUp() {
+
+  onSubmit(): void {
+    if (this.loginForm.valid && !this.isLoading) {
+      this.isLoading = true;
+      this.errorMessage = '';
+
+      const { email, password } = this.loginForm.value;
+
+      this.authService.login(email, password).subscribe({
+        next: (response) => {
+        //   console.log('Login successful:', response);
+          this.isLoading = false;
+        },
+        error: (error) => {
+        //   console.error('Login error:', error);
+          this.errorMessage = error || 'Login failed. Please try again.';
+          this.isLoading = false;
+        },
+      });
+    }
+  }
+
+  redirectToSignUp(): void {
     this.router.navigate(['/signup']);
   }
+
+  private redirectAuthenticatedUser(): void {
+    const currentUser = this.authService.getCurrentUser();
+    if (currentUser) {
+      switch (currentUser.role) {
+        case 'admin':
+          this.router.navigate(['/dashboard']);
+          break;
+        case 'user':
+          this.router.navigate(['/order-advertising']);
+          break;
+        default:
+          this.authService.logout();
+          break;
+      }
+    }
+  }
+
 }

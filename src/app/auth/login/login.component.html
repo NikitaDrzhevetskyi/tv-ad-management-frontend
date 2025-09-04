@@ -1,15 +1,13 @@
-<!-- login.component.html (updated with error handling) -->
 <mat-card class="login-card">
   <mat-spinner *ngIf="isLoading"></mat-spinner>
 
   <h2 class="text-center">Login</h2>
 
-  <!-- Error message display -->
   <mat-error *ngIf="errorMessage" class="error-message">
     {{ errorMessage }}
   </mat-error>
 
-  <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Email</mat-label>
       <input matInput formControlName="email" type="email" />
@@ -38,13 +36,14 @@
     >
       {{ isLoading ? "Logging in..." : "Login" }}
     </button>
+
     <div class="register-block">
       <p class="register-text">Not registered yet?</p>
       <button
         mat-raised-button
         color="primary"
         class="full-width"
-        type="submit"
+        type="button"
         (click)="redirectToSignUp()"
       >
         Register

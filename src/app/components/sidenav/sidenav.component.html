@@ -1,37 +1,68 @@
-<mat-toolbar color="primary">
-  <button mat-icon-button (click)="toggleSidenav()" class="toggle-button">
-    <mat-icon>{{ sidenav.opened ? "close" : "menu" }}</mat-icon>
-  </button>
-  <span>TV Advertise Management</span>
-  <span class="example-spacer"></span>
+<mat-sidenav-container class="sidenav-container" *ngIf="isAuthenticated">
+  <mat-sidenav 
+    #drawer 
+    class="sidenav" 
+    fixedInViewport
+    [attr.role]="'navigation'"
+    mode="side"
+    opened="true">
+    
+    <div class="user-info">
+      <div class="user-avatar">
+        <mat-icon>account_circle</mat-icon>
+      </div>
+      <div class="user-details">
+        <h3 class="user-name">{{ getUserDisplayName() }}</h3>
+        <p class="user-role">{{ getUserRole() }}</p>
+      </div>
+    </div>
 
-  <button
-    matIconButton
-    class="example-icon"
-    aria-label="Example icon-button with share icon"
-  >
-    <mat-icon>logout</mat-icon>
-  </button>
-</mat-toolbar>
+    <mat-divider></mat-divider>
 
-<mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #sidenav class="sidenav" mode="side" opened>
-    <mat-nav-list>
-      @for (navItem of navObjects; track $index) {
-      <a
-        mat-list-item
-        [routerLink]="navItem.link"
-        routerLinkActive="active-route"
-        class="nav-link"
-      >
-        <mat-icon class="nav-icon">{{
-          getIconForNavItem(navItem.name)
-        }}</mat-icon>
-        <span class="nav-text">{{ navItem.name }}</span>
+    <mat-nav-list class="navigation-list">
+      <a 
+        mat-list-item 
+        *ngFor="let item of navigationItems" 
+        [routerLink]="item.link"
+        routerLinkActive="active-link"
+        class="nav-item">
+        <mat-icon matListItemIcon *ngIf="item.icon">{{ item.icon }}</mat-icon>
+        <span matListItemTitle>{{ item.name }}</span>
       </a>
-      }
     </mat-nav-list>
+
+    <div class="spacer"></div>
+
+    <div class="logout-section">
+      <mat-divider></mat-divider>
+      <button 
+        mat-list-item 
+        class="logout-button"
+        (click)="onLogout()">
+        <mat-icon matListItemIcon>logout</mat-icon>
+        <span matListItemTitle>Logout</span>
+      </button>
+    </div>
   </mat-sidenav>
 
-  <ng-content></ng-content>
+  <mat-sidenav-content class="main-content">
+    <mat-toolbar class="toolbar" color="primary">
+      <button
+        type="button"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        class="menu-button">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span class="app-title">TV Ad Management</span>
+    </mat-toolbar>
+
+    <div class="content-wrapper">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
 </mat-sidenav-container>
+
+<div *ngIf="!isAuthenticated" class="auth-container">
+  <router-outlet></router-outlet>
+</div>
