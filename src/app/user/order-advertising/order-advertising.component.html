@@ -1,1 +1,74 @@
-<p>order-advertising works!</p>
+<div class="program-button">
+  <h2>Order Advertising</h2>
+</div>
+<mat-progress-bar mode="indeterminate" *ngIf="isLoading"> </mat-progress-bar>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Name</th>
+    <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="rating">
+    <th mat-header-cell *matHeaderCellDef>Rating</th>
+    <td mat-cell *matCellDef="let element">{{ element.rating }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="costPeerMinute">
+    <th mat-header-cell *matHeaderCellDef>Cost per Minute</th>
+    <td mat-cell *matCellDef="let element">{{ element.costPeerMinute }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="calculator">
+    <th mat-header-cell *matHeaderCellDef>Calculate price</th>
+    <td mat-cell *matCellDef="let element">
+      <div class="calculator-container">
+        <mat-form-field appearance="outline" class="minutes-input">
+          <mat-label>Minutes</mat-label>
+          <input
+            matInput
+            type="number"
+            min="0"
+            step="0.5"
+            placeholder="Enter minutes"
+            [(ngModel)]="element.calculatorMinutes"
+            (input)="calculatePrice(element)"
+          />
+        </mat-form-field>
+        <div class="calculated-cost" *ngIf="element.calculatedCost">
+          <strong>{{ element.calculatedCost | currency }}</strong>
+        </div>
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef>Action</th>
+    <td mat-cell *matCellDef="let element">
+      <button
+        mat-flat-button
+        color="primary"
+        class="order-btn"
+        (click)="openOrderModal(element)"
+        [disabled]="
+          !element.calculatorMinutes || element.calculatorMinutes <= 0
+        "
+      >
+        Order
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+
+<mat-paginator
+  [length]="totalPrograms"
+  [pageSize]="programsPerPage"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="onChangedPage($event)"
+></mat-paginator>
+
+<p class="info-text mat-body-1" *ngIf="programs.length <= 0 && !isLoading">
+  No posts added yet!
+</p>

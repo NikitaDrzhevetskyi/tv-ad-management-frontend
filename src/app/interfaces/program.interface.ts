@@ -3,4 +3,6 @@ export interface IProgram {
   name: string;
   rating: number;
   costPeerMinute: number;
+  calculatorMinutes?: number;  
+  calculatedCost?: number;  
 }

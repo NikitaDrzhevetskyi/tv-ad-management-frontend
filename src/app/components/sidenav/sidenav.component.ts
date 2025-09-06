@@ -40,6 +40,11 @@ export class SidenavComponent implements OnInit, OnDestroy {
       link: '/order-advertising',
       icon: 'add_business',
     },
+    {
+      name: 'My Orders',
+      link: '/my-orders',
+      icon: 'assignment',
+    },
     { name: 'Profile', link: '/user-profile', icon: 'person' },
   ];
 

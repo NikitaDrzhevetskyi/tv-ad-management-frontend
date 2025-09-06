@@ -22,6 +22,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { CommonModule } from '@angular/common';
+import { MatChip, MatChipListbox, MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   imports: [
@@ -48,6 +49,9 @@ import { CommonModule } from '@angular/common';
     MatRadioModule,
     MatProgressSpinnerModule,
     MatPaginatorModule,
+    MatChip,
+	MatChipListbox,
+    MatChipsModule,
     CommonModule,
   ],
   exports: [
@@ -75,6 +79,9 @@ import { CommonModule } from '@angular/common';
     MatDividerModule,
     MatProgressSpinnerModule,
     MatPaginatorModule,
+	MatChipListbox,
+    MatChipsModule,
+    MatChip,
     CommonModule,
   ],
 })

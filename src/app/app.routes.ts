@@ -9,13 +9,15 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { UserProfileComponent } from './user/user-profile/user-profile.component';
 import { AuthGuard } from './guards/auth.guard';
 import { RoleGuard } from './guards/role.guard';
+import { OrderAdvertisingComponent } from './user/order-advertising/order-advertising.component';
+import { MyOrdersComponent } from './user/my-orders/my-orders.component';
 
 export const routes: Routes = [
   // Public routes
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
 
-  // Admin routes 
+  // Admin routes
   {
     path: 'dashboard',
     component: DashboardComponent,
@@ -56,7 +58,14 @@ export const routes: Routes = [
   },
   {
     path: 'order-advertising',
-    component: AdvertisementsComponent,
+    component: OrderAdvertisingComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['user'] },
+  },
+
+  {
+    path: 'my-orders',
+    component: MyOrdersComponent,
     canActivate: [AuthGuard, RoleGuard],
     data: { roles: ['user'] },
   },

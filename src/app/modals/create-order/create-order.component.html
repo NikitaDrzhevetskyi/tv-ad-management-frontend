@@ -1,0 +1,177 @@
+<ng-container>
+  <header>
+    <h2 mat-dialog-title>Create Advertising Order</h2>
+    <button class="close-button" matButton mat-dialog-close mat-icon-button>
+      <mat-icon fontIcon="close"></mat-icon>
+    </button>
+  </header>
+
+  <mat-dialog-content class="order-modal-content">
+    <form [formGroup]="orderForm" class="order-form">
+      <!-- Advertising Order Section -->
+      <mat-card class="section-card">
+        <mat-card-header>
+          <mat-card-title>Advertising Order Informaion </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="form-row">
+            <div class="info-item full-width">
+              <label class="info-label">Program</label>
+              <span class="info-value">{{
+                orderForm.get("program")?.value
+              }}</span>
+            </div>
+          </div>
+
+          <div class="form-row two-columns">
+            <div class="info-item">
+              <label class="info-label">Rating</label>
+              <span class="info-value">{{
+                orderForm.get("rating")?.value
+              }}</span>
+            </div>
+
+            <div class="info-item">
+              <label class="info-label">Price per minute</label>
+              <span class="info-value"
+                >${{ orderForm.get("pricePerMinute")?.value }}</span
+              >
+            </div>
+          </div>
+
+          <div class="form-row two-columns">
+            <mat-form-field appearance="outline">
+              <mat-label>Duration (minutes)</mat-label>
+              <input
+                matInput
+                type="number"
+                formControlName="duration"
+                min="1"
+                placeholder="Enter duration"
+              />
+              <mat-error
+                *ngIf="orderForm.get('duration')?.hasError('required')"
+              >
+                Duration is required
+              </mat-error>
+              <mat-error *ngIf="orderForm.get('duration')?.hasError('min')">
+                Duration must be at least 1 minute
+              </mat-error>
+            </mat-form-field>
+
+            <div class="info-item total-cost">
+              <label class="info-label">Total Cost</label>
+              <span class="info-value total-amount"
+                >${{ getTotalPrice() }}</span
+              >
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Order Details Section -->
+      <mat-card class="section-card">
+        <mat-card-header>
+          <mat-card-title>Select a date</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="form-row two-columns">
+            <mat-form-field appearance="outline">
+              <mat-label>Date</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker"
+                formControlName="date"
+                [min]="today"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error *ngIf="orderForm.get('date')?.hasError('required')">
+                Date is required
+              </mat-error>
+              <mat-error
+                *ngIf="orderForm.get('date')?.hasError('matDatepickerMax')"
+              >
+                Date cannot be in the future
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Customer Information Section -->
+      <mat-card class="section-card">
+        <mat-card-header>
+          <mat-card-title>Customer Information</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Name of the organization</mat-label>
+              <input
+                matInput
+                formControlName="organizationName"
+                placeholder="Enter organization name"
+              />
+              <mat-error
+                *ngIf="orderForm.get('organizationName')?.hasError('required')"
+              >
+                Organization name is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Contact person</mat-label>
+              <input
+                matInput
+                formControlName="contactPerson"
+                placeholder="Enter contact person name"
+              />
+              <mat-error
+                *ngIf="orderForm.get('contactPerson')?.hasError('required')"
+              >
+                Contact person is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Bank details</mat-label>
+              <textarea
+                matInput
+                formControlName="bankDetails"
+                rows="3"
+                placeholder="Enter bank details"
+              ></textarea>
+              <mat-error
+                *ngIf="orderForm.get('bankDetails')?.hasError('required')"
+              >
+                Bank details are required
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </form>
+  </mat-dialog-content>
+
+  <footer>
+    <div mat-dialog-actions>
+      <button mat-button mat-dialog-close type="button">Cancel</button>
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="submit()"
+        [disabled]="orderForm.invalid"
+      >
+        Create Order
+      </button>
+    </div>
+  </footer>
+</ng-container>
