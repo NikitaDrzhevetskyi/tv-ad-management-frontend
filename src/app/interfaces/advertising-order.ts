@@ -9,6 +9,7 @@ export interface IAdvertisingOrder {
   organizationName: string;
   contactPerson: string;
   bankDetails: string;
+  phoneNumber: string;
   status?: 'pending' | 'approved' | 'rejected' | 'completed';
   createdAt?: Date;
   updatedAt?: Date;

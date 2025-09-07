@@ -8,7 +8,6 @@
 
   <mat-dialog-content class="order-modal-content">
     <form [formGroup]="orderForm" class="order-form">
-      <!-- Advertising Order Section -->
       <mat-card class="section-card">
         <mat-card-header>
           <mat-card-title>Advertising Order Informaion </mat-card-title>
@@ -46,7 +45,8 @@
                 matInput
                 type="number"
                 formControlName="duration"
-                min="1"
+                min="0"
+                step="0.1"
                 placeholder="Enter duration"
               />
               <mat-error
@@ -55,7 +55,7 @@
                 Duration is required
               </mat-error>
               <mat-error *ngIf="orderForm.get('duration')?.hasError('min')">
-                Duration must be at least 1 minute
+                Duration must be at least 0.1 seconds
               </mat-error>
             </mat-form-field>
 
@@ -69,7 +69,6 @@
         </mat-card-content>
       </mat-card>
 
-      <!-- Order Details Section -->
       <mat-card class="section-card">
         <mat-card-header>
           <mat-card-title>Select a date</mat-card-title>
@@ -102,7 +101,6 @@
         </mat-card-content>
       </mat-card>
 
-      <!-- Customer Information Section -->
       <mat-card class="section-card">
         <mat-card-header>
           <mat-card-title>Customer Information</mat-card-title>
@@ -136,6 +134,27 @@
                 *ngIf="orderForm.get('contactPerson')?.hasError('required')"
               >
                 Contact person is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Phone Number</mat-label>
+              <input
+                matInput
+                formControlName="phoneNumber"
+                placeholder="Enter phone number"
+              />
+              <mat-error
+                *ngIf="orderForm.get('phoneNumber')?.hasError('required')"
+              >
+                Phone number is required
+              </mat-error>
+              <mat-error
+                *ngIf="orderForm.get('phoneNumber')?.hasError('pattern')"
+              >
+                Enter a valid phone number (7–15 digits, may start with +)
               </mat-error>
             </mat-form-field>
           </div>

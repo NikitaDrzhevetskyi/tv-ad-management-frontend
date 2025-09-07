@@ -14,7 +14,7 @@ import { IAdvertisingOrder } from '../../interfaces/advertising-order';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { OrderAdvertisingService } from '../../services/order-advertising.service'; // Add this import
+import { OrderAdvertisingService } from '../../services/order-advertising.service'; 
 
 @Component({
   selector: 'app-create-order',
@@ -36,7 +36,7 @@ export class CreateOrderComponent {
     private fb: FormBuilder,
     private programsService: ProgramsService,
     private orderAdvertisingService: OrderAdvertisingService,
-    private snackBar: MatSnackBar, // Add this service
+    private snackBar: MatSnackBar,
     private dialogRef: MatDialogRef<CreateOrderComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IProgram
   ) {
@@ -73,6 +73,10 @@ export class CreateOrderComponent {
       }),
       organizationName: new FormControl('', Validators.required),
       contactPerson: new FormControl('', Validators.required),
+      phoneNumber: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^\+?[0-9]{7,15}$/),
+      ]),
       bankDetails: new FormControl('', Validators.required),
     });
   }
@@ -113,7 +117,7 @@ export class CreateOrderComponent {
 
   submit() {
     if (this.orderForm.valid && !this.isLoading) {
-      this.isLoading = true; // Set loading state
+      this.isLoading = true;
       const formValues = this.orderForm.getRawValue();
 
       const orderData: IAdvertisingOrder = {
@@ -126,10 +130,10 @@ export class CreateOrderComponent {
         organizationName: formValues.organizationName || '',
         contactPerson: formValues.contactPerson || '',
         bankDetails: formValues.bankDetails || '',
+        phoneNumber: formValues.phoneNumber || '',
       };
 
-      console.log(orderData);
-      // Call the service to create the order
+      //   console.log(orderData);
       this.orderAdvertisingService.createAdvertisingOrder(orderData).subscribe({
         next: (response) => {
           console.log('Order submitted successfully:', response);
