@@ -46,6 +46,25 @@ export class OrderAdvertisingService {
     });
   }
 
+  // Get approved advertisements only
+  getApprovedAdvertisements(ordersPerPage: number, currentPage: number): void {
+    const queryParams = `?pagesize=${ordersPerPage}&page=${currentPage}&status=approved`;
+    
+    this.http.get<{message: string, advertisements: IAdvertisingOrder[], maxAdvertisements: number}>(
+      this.apiUrl + queryParams
+    ).pipe(
+      catchError(error => {
+        console.error('Error fetching approved advertising orders:', error);
+        return throwError(error);
+      })
+    ).subscribe((orderData) => {
+      this.ordersUpdated.next({
+        orders: orderData.advertisements,
+        orderCount: orderData.maxAdvertisements
+      });
+    });
+  }
+
   // Get user's own orders
   getUserAdvertisingOrders(ordersPerPage: number, currentPage: number): void {
     const queryParams = `?pagesize=${ordersPerPage}&page=${currentPage}`;
@@ -73,6 +92,19 @@ export class OrderAdvertisingService {
     ).pipe(
       catchError(error => {
         console.error('Error updating order status:', error);
+        return throwError(error);
+      })
+    );
+  }
+
+  // Assign agent to advertisement
+  assignAgentToAdvertisement(advertisementId: string, agentData: { agentId: string }): Observable<any> {
+    return this.http.put<{message: string, advertisement: IAdvertisingOrder}>(
+      `${this.apiUrl}/${advertisementId}/agent`,
+      agentData
+    ).pipe(
+      catchError(error => {
+        console.error('Error assigning agent to advertisement:', error);
         return throwError(error);
       })
     );
