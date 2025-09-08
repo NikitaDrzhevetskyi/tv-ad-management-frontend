@@ -1,0 +1,184 @@
+.agents-header {
+  margin-bottom: 1.5rem;
+
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+
+    h2 {
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+
+    p {
+      margin: 0;
+      color: rgba(0, 0, 0, 0.6);
+    }
+
+    .add-button {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      min-width: 140px;
+    }
+  }
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  margin-bottom: 1rem;
+}
+
+.full-width-table {
+  width: 100%;
+  min-width: 900px;
+
+  th {
+    font-weight: 600;
+    background-color: #fafafa;
+    font-size: 0.875rem;
+    color: #666;
+  }
+
+  td {
+    padding: 16px 12px;
+  }
+}
+
+.agent-row {
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #f9f9f9;
+  }
+}
+
+.agent-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .agent-icon {
+    color: #666;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+
+  .name-text {
+    font-weight: 500;
+    color: #333;
+  }
+}
+
+.commission-badge {
+  .mat-mdc-chip {
+    font-weight: 600;
+    font-size: 0.875rem;
+  }
+}
+
+.amount-display, .earnings-display {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  .amount, .earnings {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #333;
+  }
+
+  .amount-label {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .earnings-label {
+    color: #4caf50;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+.earnings-display .earnings {
+  color: #4caf50;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+
+  .mat-mdc-icon-button {
+    width: 36px;
+    height: 36px;
+
+    .mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+.no-data-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1rem;
+  text-align: center;
+
+  .no-data-icon {
+    font-size: 4rem;
+    width: 4rem;
+    height: 4rem;
+    color: rgba(0, 0, 0, 0.3);
+    margin-bottom: 1rem;
+  }
+
+  .info-text {
+    color: rgba(0, 0, 0, 0.6);
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+  }
+
+  button {
+    min-width: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .agents-header .header-content {
+    flex-direction: column;
+    align-items: stretch;
+
+    .add-button {
+      align-self: flex-start;
+    }
+  }
+
+  .table-container {
+    .full-width-table {
+      min-width: 700px;
+    }
+  }
+
+  .agents-header h2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .agents-header .header-content .add-button {
+    width: 100%;
+    justify-content: center;
+  }
+}

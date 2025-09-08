@@ -27,6 +27,7 @@ import {
   MatChipListbox,
   MatChipsModule,
 } from '@angular/material/chips';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   imports: [
@@ -56,6 +57,7 @@ import {
     MatChip,
     MatChipListbox,
     MatChipsModule,
+    MatTabsModule,
     CommonModule,
   ],
   exports: [
@@ -87,6 +89,7 @@ import {
     MatChipsModule,
     MatChip,
     MatSelectModule,
+    MatTabsModule,
     CommonModule,
   ],
 })

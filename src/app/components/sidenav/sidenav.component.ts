@@ -29,7 +29,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
   private adminNavigation: NavigationItem[] = [
     { name: 'Dashboard', link: '/dashboard', icon: 'dashboard' },
     { name: 'Programs', link: '/programs', icon: 'tv' },
-    { name: 'Customers', link: '/customers', icon: 'people' },
+    // { name: 'Customers', link: '/customers', icon: 'people' },
     { name: 'Agents', link: '/agents', icon: 'support_agent' },
     { name: 'Advertisements', link: '/advertisements', icon: 'campaign' },
   ];

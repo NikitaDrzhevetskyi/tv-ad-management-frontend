@@ -1,0 +1,118 @@
+<div class="dialog-header">
+  <h2 mat-dialog-title>
+    <mat-icon class="dialog-icon">assignment_ind</mat-icon>
+    Assign Agent to Advertisement
+  </h2>
+</div>
+
+<mat-dialog-content>
+  <div class="ad-summary">
+    <h3>Advertisement Details</h3>
+    <div class="summary-grid">
+      <div class="summary-item">
+        <span class="label">Organization:</span>
+        <span class="value">{{ data.advertisement.organizationName }}</span>
+      </div>
+      <div class="summary-item">
+        <span class="label">Program:</span>
+        <span class="value">{{ data.advertisement.program }}</span>
+      </div>
+      <div class="summary-item">
+        <span class="label">Total Value:</span>
+        <span class="value">{{
+          formatCurrency(data.advertisement.totalPrice)
+        }}</span>
+      </div>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <form [formGroup]="assignmentForm" class="assignment-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Select Agent</mat-label>
+      <mat-select
+        formControlName="agentId"
+        (selectionChange)="assignmentForm.updateValueAndValidity()"
+      >
+        <mat-option *ngFor="let agent of availableAgents" [value]="agent._id">
+          <div class="agent-option">
+            <div class="agent-info">
+              <span class="agent-name">{{ agent.name }}</span>
+              <span class="agent-commission"
+                >{{ agent.commissionPercentage }}% commission</span
+              >
+            </div>
+            <div class="earnings-preview">
+              {{ formatCurrency(calculateEarnings(agent._id!)) }} earnings
+            </div>
+          </div>
+        </mat-option>
+      </mat-select>
+      <mat-hint>Choose an agent to handle this advertisement</mat-hint>
+      <mat-error *ngIf="assignmentForm.get('agentId')?.hasError('required')">
+        Please select an agent
+      </mat-error>
+    </mat-form-field>
+
+    <mat-card
+      *ngIf="assignmentForm.get('agentId')?.value"
+      class="earnings-card"
+    >
+      <mat-card-header>
+        <mat-card-title class="earnings-title">
+          <mat-icon>trending_up</mat-icon>
+          Commission Breakdown
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="earnings-breakdown">
+          <div class="breakdown-item">
+            <span class="breakdown-label">Advertisement Value:</span>
+            <span class="breakdown-value">{{
+              formatCurrency(data.advertisement.totalPrice)
+            }}</span>
+          </div>
+          <div class="breakdown-item">
+            <span class="breakdown-label">Commission Rate:</span>
+            <span class="breakdown-value">
+              {{ getSelectedAgentCommission() }}%
+            </span>
+          </div>
+          <div class="breakdown-item total">
+            <span class="breakdown-label">Agent Earnings:</span>
+            <span class="breakdown-value">{{
+              formatCurrency(
+                calculateEarnings(assignmentForm.get("agentId")?.value)
+              )
+            }}</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+
+  <div *ngIf="isLoading" class="loading-container">
+    <mat-progress-spinner diameter="40"></mat-progress-spinner>
+    <p>Loading agents...</p>
+  </div>
+
+  <div *ngIf="!isLoading && availableAgents.length === 0" class="no-agents">
+    <mat-icon>people_outline</mat-icon>
+    <p>No agents available. Please add agents first.</p>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()" class="cancel-button">Cancel</button>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="onAssign()"
+    [disabled]="assignmentForm.invalid || availableAgents.length === 0"
+    class="assign-button"
+  >
+    <mat-icon>assignment_turned_in</mat-icon>
+    Assign Agent
+  </button>
+</mat-dialog-actions>

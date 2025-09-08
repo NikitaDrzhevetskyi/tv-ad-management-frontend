@@ -3,139 +3,362 @@
   <p class="mat-body-2">Manage all advertisement requests from users</p>
 </div>
 
-<div class="">
+<mat-tab-group [(selectedIndex)]="selectedTab" (selectedTabChange)="onTabChanged($event)">
+  <mat-tab label="All Requests">
+    <div class="tab-content">
+      <mat-progress-bar
+        mode="indeterminate"
+        *ngIf="isLoading"
+      ></mat-progress-bar>
 
-</div>
-
-<mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
-
-<div class="table-container">
-  <table
-    mat-table
-    [dataSource]="dataSource"
-    class="mat-elevation-z8 full-width-table"
-  >
-    <ng-container matColumnDef="createdAt">
-      <th mat-header-cell *matHeaderCellDef>Created At</th>
-      <td mat-cell *matCellDef="let element">
-        {{ formatDate(element.createdAt) }}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="date">
-      <th mat-header-cell *matHeaderCellDef>Broadcast Date</th>
-      <td mat-cell *matCellDef="let element">{{ element.date }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="organizationName">
-      <th mat-header-cell *matHeaderCellDef>Organization</th>
-      <td mat-cell *matCellDef="let element">{{ element.organizationName }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="contactPerson">
-      <th mat-header-cell *matHeaderCellDef>Contact Person</th>
-      <td mat-cell *matCellDef="let element">{{ element.contactPerson }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="phoneNumber">
-      <th mat-header-cell *matHeaderCellDef>Phone</th>
-      <td mat-cell *matCellDef="let element">
-        <a href="tel:{{ element.phoneNumber }}">{{ element.phoneNumber }}</a>
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="program">
-      <th mat-header-cell *matHeaderCellDef>Program</th>
-      <td mat-cell *matCellDef="let element">
-        <strong>{{ element.program }}</strong>
-        <br />
-        <small>Rating: {{ element.rating }}</small>
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="duration">
-      <th mat-header-cell *matHeaderCellDef>Duration</th>
-      <td mat-cell *matCellDef="let element">{{ element.duration }} min</td>
-    </ng-container>
-
-    <ng-container matColumnDef="totalPrice">
-      <th mat-header-cell *matHeaderCellDef>Total Price</th>
-      <td mat-cell *matCellDef="let element">
-        <strong>${{ element.totalPrice }}</strong>
-        <br />
-        <small>${{ element.pricePerMinute }}/min</small>
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="bankDetails">
-      <th mat-header-cell *matHeaderCellDef>Bank Details</th>
-      <td mat-cell *matCellDef="let element">
-        <div class="bank-details">{{ element.bankDetails }}</div>
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="agent">
-      <th mat-header-cell *matHeaderCellDef>Agent</th>
-      <td mat-cell *matCellDef="let element">
-        <mat-select
-          [value]="element.status"
+      <div class="table-container">
+        <table
+          mat-table
+          [dataSource]="dataSource"
+          class="mat-elevation-z8 full-width-table"
         >
-          <mat-option value="">Add Agent</mat-option>
-        </mat-select>
-      </td>
-    </ng-container>
+          <ng-container matColumnDef="createdAt">
+            <th mat-header-cell *matHeaderCellDef>Created At</th>
+            <td mat-cell *matCellDef="let element">
+              {{ formatDate(element.createdAt) }}
+            </td>
+          </ng-container>
 
-    <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef>Status</th>
-      <td mat-cell *matCellDef="let element">
-        <mat-select
-          [value]="element.status"
-          (selectionChange)="onUpdateStatus(element._id!, $event.value)"
-        >
-          <mat-option value="pending">Pending</mat-option>
-          <mat-option value="approved">Approved</mat-option>
-          <mat-option value="rejected">Rejected</mat-option>
-          <mat-option value="completed">Completed</mat-option>
-        </mat-select>
-      </td>
-    </ng-container>
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef>Broadcast Date</th>
+            <td mat-cell *matCellDef="let element">{{ element.date }}</td>
+          </ng-container>
 
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef>Actions</th>
-      <td mat-cell *matCellDef="let element">
-        <div class="action-buttons">
-          <button
-            mat-icon-button
-            color="warn"
-            (click)="onDeleteAdvertisement(element._id!)"
-            matTooltip="Delete Advertisement"
-          >
-            <mat-icon>delete</mat-icon>
-          </button>
+          <ng-container matColumnDef="organizationName">
+            <th mat-header-cell *matHeaderCellDef>Organization</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.organizationName }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="contactPerson">
+            <th mat-header-cell *matHeaderCellDef>Contact Person</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.contactPerson }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="phoneNumber">
+            <th mat-header-cell *matHeaderCellDef>Phone</th>
+            <td mat-cell *matCellDef="let element">
+              <a href="tel:{{ element.phoneNumber }}">{{
+                element.phoneNumber
+              }}</a>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="program">
+            <th mat-header-cell *matHeaderCellDef>Program</th>
+            <td mat-cell *matCellDef="let element">
+              <strong>{{ element.program }}</strong>
+              <br />
+              <small>Rating: {{ element.rating }}</small>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="duration">
+            <th mat-header-cell *matHeaderCellDef>Duration</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.duration }} min
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="totalPrice">
+            <th mat-header-cell *matHeaderCellDef>Total Price</th>
+            <td mat-cell *matCellDef="let element">
+              <strong>{{ formatCurrency(element.totalPrice) }}</strong>
+              <br />
+              <small>{{ formatCurrency(element.pricePerMinute) }}/min</small>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="bankDetails">
+            <th mat-header-cell *matHeaderCellDef>Bank Details</th>
+            <td mat-cell *matCellDef="let element">
+              <div class="bank-details">{{ element.bankDetails }}</div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="agent">
+            <th mat-header-cell *matHeaderCellDef>Agent</th>
+            <td mat-cell *matCellDef="let element">
+              <div class="agent-cell">
+                <div *ngIf="hasAgent(element); else noAgent" class="agent-info">
+                  <div class="agent-name">{{ element.agentName }}</div>
+                  <small class="agent-commission">{{ element.agentCommission }}% commission</small>
+                </div>
+                <ng-template #noAgent>
+                  <div class="no-agent">
+                    <mat-icon class="no-agent-icon">person_outline</mat-icon>
+                    <small>No agent assigned</small>
+                  </div>
+                </ng-template>
+                <button 
+                  mat-button 
+                  color="primary" 
+                  size="small"
+                  (click)="onAssignAgent(element)"
+                  class="assign-agent-btn"
+                >
+                  {{ getAgentButtonText(element) }}
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let element">
+              <mat-select
+                [value]="element.status"
+                (selectionChange)="onUpdateStatus(element._id!, $event.value)"
+                class="status-select"
+              >
+                <mat-option value="pending">Pending</mat-option>
+                <mat-option value="approved">Approved</mat-option>
+                <mat-option value="rejected">Rejected</mat-option>
+                <mat-option value="completed">Completed</mat-option>
+              </mat-select>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let element">
+              <div class="action-buttons">
+                <button
+                  mat-icon-button
+                  color="warn"
+                  (click)="onDeleteAdvertisement(element._id!)"
+                  matTooltip="Delete Advertisement"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumns"
+            class="advertisement-row"
+          ></tr>
+        </table>
+      </div>
+
+      <mat-paginator
+        [length]="totalOrders"
+        [pageSize]="ordersPerPage"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="onChangedPage($event)"
+      >
+      </mat-paginator>
+
+      <div
+        class="no-data-container"
+        *ngIf="advertisements.length <= 0 && !isLoading"
+      >
+        <mat-icon class="no-data-icon">inbox</mat-icon>
+        <p class="info-text mat-body-1">No advertisement requests found yet!</p>
+      </div>
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Approved Ads">
+    <div class="tab-content">
+      <mat-progress-bar
+        mode="indeterminate"
+        *ngIf="isLoading"
+      ></mat-progress-bar>
+
+      <div class="approved-ads-info">
+        <mat-icon>check_circle</mat-icon>
+        <div>
+          <h3>Approved Advertisements</h3>
+          <p>These advertisements are approved and generating commissions for assigned agents.</p>
         </div>
-      </td>
-    </ng-container>
+      </div>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr
-      mat-row
-      *matRowDef="let row; columns: displayedColumns"
-      class="advertisement-row"
-    ></tr>
-  </table>
-</div>
+      <div class="table-container">
+        <table 
+          mat-table 
+          [dataSource]="approvedDataSource"
+          class="mat-elevation-z8 full-width-table approved-table"
+        >
+          <ng-container matColumnDef="createdAt">
+            <th mat-header-cell *matHeaderCellDef>Created At</th>
+            <td mat-cell *matCellDef="let element">
+              {{ formatDate(element.createdAt) }}
+            </td>
+          </ng-container>
 
-<!-- Paginator -->
-<mat-paginator
-  [length]="totalOrders"
-  [pageSize]="ordersPerPage"
-  [pageSizeOptions]="pageSizeOptions"
-  (page)="onChangedPage($event)"
->
-</mat-paginator>
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef>Broadcast Date</th>
+            <td mat-cell *matCellDef="let element">{{ element.date }}</td>
+          </ng-container>
 
-<!-- No Data Message -->
-<div class="no-data-container" *ngIf="advertisements.length <= 0 && !isLoading">
-  <mat-icon class="no-data-icon">inbox</mat-icon>
-  <p class="info-text mat-body-1">No advertisement requests found yet!</p>
-</div>
+          <ng-container matColumnDef="organizationName">
+            <th mat-header-cell *matHeaderCellDef>Organization</th>
+            <td mat-cell *matCellDef="let element">
+              <div class="readonly-cell">
+                <strong>{{ element.organizationName }}</strong>
+                <small>{{ element.contactPerson }}</small>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="contactPerson">
+            <th mat-header-cell *matHeaderCellDef>Contact</th>
+            <td mat-cell *matCellDef="let element">
+              <div class="contact-info">
+                <div>{{ element.contactPerson }}</div>
+                <a href="tel:{{ element.phoneNumber }}" class="phone-link">
+                  {{ element.phoneNumber }}
+                </a>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="program">
+            <th mat-header-cell *matHeaderCellDef>Program</th>
+            <td mat-cell *matCellDef="let element">
+              <div class="program-info">
+                <strong>{{ element.program }}</strong>
+                <small>{{ element.duration }}min • {{ formatCurrency(element.pricePerMinute) }}/min</small>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="duration">
+            <th mat-header-cell *matHeaderCellDef>Duration</th>
+            <td mat-cell *matCellDef="let element">
+              <span class="duration-badge">{{ element.duration }}min</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="totalPrice">
+            <th mat-header-cell *matHeaderCellDef>Revenue</th>
+            <td mat-cell *matCellDef="let element">
+              <div class="revenue-info">
+                <strong class="total-revenue">{{ formatCurrency(element.totalPrice) }}</strong>
+                <small>Total Revenue</small>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="agent">
+            <th mat-header-cell *matHeaderCellDef>Agent</th>
+            <td mat-cell *matCellDef="let element">
+              <div class="agent-cell" *ngIf="hasAgent(element); else noAgentApproved">
+                <div class="agent-info">
+                  <div class="agent-name">
+                    <mat-icon class="agent-icon">person</mat-icon>
+                    {{ element.agentName }}
+                  </div>
+                  <small class="agent-commission">{{ element.agentCommission }}% commission</small>
+                </div>
+                <button 
+                  mat-button 
+                  color="primary" 
+                  size="small"
+                  (click)="onAssignAgent(element)"
+                  class="change-agent-btn"
+                >
+                  Change
+                </button>
+              </div>
+              <ng-template #noAgentApproved>
+                <button 
+                  mat-stroked-button 
+                  color="primary" 
+                  (click)="onAssignAgent(element)"
+                  class="assign-agent-btn"
+                >
+                  <mat-icon>person_add</mat-icon>
+                  Assign Agent
+                </button>
+              </ng-template>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="agentEarnings">
+            <th mat-header-cell *matHeaderCellDef>Agent Earnings</th>
+            <td mat-cell *matCellDef="let element">
+              <div class="earnings-info" *ngIf="hasAgent(element); else noEarnings">
+                <strong class="earnings-amount">{{ formatCurrency(element.agentEarnings || 0) }}</strong>
+                <small class="earnings-label">Commission</small>
+              </div>
+              <ng-template #noEarnings>
+                <div class="no-earnings">
+                  <mat-icon>trending_flat</mat-icon>
+                  <small>No agent assigned</small>
+                </div>
+              </ng-template>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let element">
+              <mat-select
+                [value]="element.status"
+                (selectionChange)="onUpdateStatus(element._id!, $event.value)"
+                class="status-select"
+              >
+                <mat-option value="approved">Approved</mat-option>
+                <mat-option value="completed">Completed</mat-option>
+                <mat-option value="rejected">Rejected</mat-option>
+              </mat-select>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let element">
+              <div class="action-buttons">
+                <button
+                  mat-icon-button
+                  color="warn"
+                  (click)="onDeleteAdvertisement(element._id!)"
+                  matTooltip="Delete Approved Advertisement"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="approvedDisplayedColumns"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: approvedDisplayedColumns"
+            class="approved-advertisement-row"
+          ></tr>
+        </table>
+      </div>
+
+      <mat-paginator
+        [length]="totalApprovedOrders"
+        [pageSize]="approvedOrdersPerPage"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="onChangedPage($event)"
+      >
+      </mat-paginator>
+
+      <div
+        class="no-data-container"
+        *ngIf="approvedAdvertisements.length <= 0 && !isLoading"
+      >
+        <mat-icon class="no-data-icon">check_circle_outline</mat-icon>
+        <p class="info-text mat-body-1">No approved advertisements yet!</p>
+        <small>Advertisements will appear here once they are approved.</small>
+      </div>
+    </div>
+  </mat-tab>
+</mat-tab-group>

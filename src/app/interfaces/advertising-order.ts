@@ -11,6 +11,10 @@ export interface IAdvertisingOrder {
   bankDetails: string;
   phoneNumber: string;
   status?: 'pending' | 'approved' | 'rejected' | 'completed';
+  agentId?: string; 
+  agentName?: string; 
+  agentCommission?: number;
+  agentEarnings?: number; 
   createdAt?: Date;
   updatedAt?: Date;
   userId?: string;

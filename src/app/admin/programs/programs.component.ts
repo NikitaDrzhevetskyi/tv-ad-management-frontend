@@ -22,11 +22,13 @@ import { EditProgramComponent } from '../../modals/edit-program/edit-program.com
 import { ProgramsService } from '../../services/programs.service';
 import { Subscription } from 'rxjs';
 import { SharedMaterialModule } from '../../util/shared-material.module';
+import { AgentService } from '../../services/agent.service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-programs',
   standalone: true,
-  imports: [SharedMaterialModule],
+  imports: [SharedMaterialModule, ReactiveFormsModule],
   templateUrl: './programs.component.html',
   styleUrls: ['./programs.component.scss'],
 })
@@ -47,7 +49,8 @@ export class ProgramsComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly _matDialog: MatDialog,
-    private programsService: ProgramsService
+    private programsService: ProgramsService,
+	private agentService: AgentService
   ) {}
 
   ngOnInit() {
@@ -71,7 +74,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
   }
 
   onChangedPage(pageData: PageEvent) {
-    console.log(pageData);
+    // console.log(pageData);
     this.isLoading = true;
     this.currentPage = pageData.pageIndex + 1;
     this.programsPerPage = pageData.pageSize;

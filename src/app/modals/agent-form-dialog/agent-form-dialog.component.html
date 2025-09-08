@@ -1,0 +1,85 @@
+<div class="dialog-header">
+  <h2 mat-dialog-title>
+    <mat-icon class="dialog-icon">{{ isEditMode ? 'edit' : 'person_add' }}</mat-icon>
+    {{ isEditMode ? 'Edit Agent' : 'Add New Agent' }}
+  </h2>
+</div>
+
+<mat-dialog-content>
+  <form [formGroup]="agentForm" class="agent-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Agent Name</mat-label>
+      <input 
+        matInput 
+        formControlName="name"
+        placeholder="Enter agent's full name"
+        maxlength="100"
+      >
+      <mat-icon matSuffix>person</mat-icon>
+      <mat-hint>Full name of the sales agent</mat-hint>
+      <mat-error *ngIf="nameControl?.invalid && nameControl?.touched">
+        {{ getNameErrorMessage() }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Commission Percentage</mat-label>
+      <input 
+        matInput 
+        type="number"
+        formControlName="commissionPercentage"
+        placeholder="0.00"
+        min="0"
+        max="100"
+        step="0.01"
+      >
+      <span matSuffix>%</span>
+      <mat-icon matSuffix>percent</mat-icon>
+      <mat-hint>Commission rate for advertising deals (0-100%)</mat-hint>
+      <mat-error *ngIf="commissionControl?.invalid && commissionControl?.touched">
+        {{ getCommissionErrorMessage() }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-card *ngIf="isEditMode && data.agent" class="info-card">
+      <mat-card-header>
+        <mat-card-title class="info-title">
+          <mat-icon>info</mat-icon>
+          Current Performance
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="performance-stats">
+          <div class="stat-item">
+            <span class="stat-label">Total Deal Value:</span>
+            <span class="stat-value">${{ (data.agent.totalDealValue || 0).toLocaleString() }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Total Earned:</span>
+            <span class="stat-value earned">${{ (data.agent.totalEarned || 0).toLocaleString() }}</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button 
+    mat-button 
+    (click)="onCancel()"
+    class="cancel-button"
+  >
+    Cancel
+  </button>
+  <button 
+    mat-raised-button 
+    color="primary"
+    (click)="onSubmit()"
+    [disabled]="agentForm.invalid"
+    class="submit-button"
+  >
+    <mat-icon>{{ isEditMode ? 'save' : 'add' }}</mat-icon>
+    {{ isEditMode ? 'Update Agent' : 'Create Agent' }}
+  </button>
+</mat-dialog-actions>
