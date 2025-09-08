@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { IProgram } from '../interfaces/program.interface';
 import { IAdvertisingOrder } from '../interfaces/advertising-order';
 import { Subject, Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
@@ -13,6 +14,7 @@ export class OrderAdvertisingService {
 
   constructor(private http: HttpClient) {}
 
+  // Create new advertising order
   createAdvertisingOrder(orderData: IAdvertisingOrder): Observable<any> {
     return this.http.post<{message: string, advertisement: IAdvertisingOrder}>(
       this.apiUrl, 
@@ -23,6 +25,25 @@ export class OrderAdvertisingService {
         return throwError(error);
       })
     );
+  }
+
+  // Get all orders (admin)
+  getAdvertisingOrders(ordersPerPage: number, currentPage: number): void {
+    const queryParams = `?pagesize=${ordersPerPage}&page=${currentPage}`;
+    
+    this.http.get<{message: string, advertisements: IAdvertisingOrder[], maxAdvertisements: number}>(
+      this.apiUrl + queryParams
+    ).pipe(
+      catchError(error => {
+        console.error('Error fetching advertising orders:', error);
+        return throwError(error);
+      })
+    ).subscribe((orderData) => {
+      this.ordersUpdated.next({
+        orders: orderData.advertisements,
+        orderCount: orderData.maxAdvertisements
+      });
+    });
   }
 
   // Get user's own orders
@@ -44,6 +65,32 @@ export class OrderAdvertisingService {
     });
   }
 
+  // Update order status (admin)
+  updateOrderStatus(orderId: string, status: string): Observable<any> {
+    return this.http.put<{message: string, advertisement: IAdvertisingOrder}>(
+      `${this.apiUrl}/${orderId}/status`,
+      { status }
+    ).pipe(
+      catchError(error => {
+        console.error('Error updating order status:', error);
+        return throwError(error);
+      })
+    );
+  }
+
+  // Delete order (admin)
+  deleteAdvertisingOrder(orderId: string): Observable<any> {
+    return this.http.delete<{message: string}>(
+      `${this.apiUrl}/${orderId}`
+    ).pipe(
+      catchError(error => {
+        console.error('Error deleting advertising order:', error);
+        return throwError(error);
+      })
+    );
+  }
+
+  // Get orders update listener
   getOrdersUpdateListener(): Observable<{ orders: IAdvertisingOrder[], orderCount: number }> {
     return this.ordersUpdated.asObservable();
   }
