@@ -1,1 +1,49 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h1>Dashboard</h1>
+    <p>Overview of your TV advertising business</p>
+  </div>
+
+  <div class="approved-revenue-widget" *ngIf="!isLoadingRevenue">
+    <h2>
+      <mat-icon>tv</mat-icon>
+      TV Advertisement Revenue
+    </h2>
+    <p>
+      Financial breakdown from {{ approvedAdsCount }} approved advertisements
+    </p>
+
+    <div class="revenue-cards">
+      <div class="revenue-card">
+        <mat-icon>trending_up</mat-icon>
+        <h3>Total Approved Revenue</h3>
+        <p class="amount">{{ formatCurrency(totalApprovedRevenue) }}</p>
+        <small>Total value from approved ads</small>
+      </div>
+
+      <div class="revenue-card">
+        <mat-icon>business</mat-icon>
+        <h3>Company Revenue</h3>
+        <p class="amount">{{ formatCurrency(companyRevenue) }}</p>
+        <small>{{ getCompanyRevenuePercentage() | number : "1.0-0" }}% of total revenue</small>
+      </div>
+
+      <div class="revenue-card">
+        <mat-icon>group</mat-icon>
+        <h3>Agent Commissions</h3>
+        <p class="amount">{{ formatCurrency(agentCommissions) }}</p>
+        <small>{{ getAgentCommissionPercentage() | number : "1.0-0" }}% of total revenue</small>
+      </div>
+    </div>
+  </div>
+
+  <div class="revenue-loading" *ngIf="isLoadingRevenue">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <p>Loading revenue data...</p>
+  </div>
+
+  <div class="no-revenue-data" *ngIf="!isLoadingRevenue && approvedAdsCount === 0">
+    <mat-icon>inbox</mat-icon>
+    <p>No approved advertisements found</p>
+  </div>
+</div>
